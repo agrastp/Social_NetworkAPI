@@ -1,31 +1,12 @@
-// ObjectId() method for converting userId string into an ObjectId for querying database
-const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
-
-//an aggregate function to get the number of users overall
-const allUsers = async () => {
-  const numberOfUsers = await User.aggregate()
-    .count('userCount');
-  return numberOfUsers;
-}
 
 module.exports = {
   // Get all users
-  async getUser(req, res) {
-    try {
-      const users = await User.find();
-
-      const userObj = {
-        users,
-        allUsers: await allUsers(),
-      };
-
-      res.json(userObj);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
-    }
-  },
+  getUser(req, res) {
+   User.find()
+   .then((users) => res.json(users))
+   .catch((err) => res.status(500).json(err));
+},
   // Get a single user
   async getSingleUser(req, res) {
     try {
