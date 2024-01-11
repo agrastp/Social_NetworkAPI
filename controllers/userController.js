@@ -66,8 +66,8 @@ module.exports = {
 
 //add a friend to a user
 addFriend({ params }, res) {
-  User.create(
-    { _id: params.userId },
+  User.findByIdAndUpdate(
+    params.userId,
     { $push: { friends: params.friendId } },
     { new: true }
   )
@@ -82,7 +82,6 @@ addFriend({ params }, res) {
     })
     .catch((err) => res.json(err));
 },
-
 //delete a friend from a user
 deleteFriend({ params }, res) {
   User.findByIdAndUpdate(
