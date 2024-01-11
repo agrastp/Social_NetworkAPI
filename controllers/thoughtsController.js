@@ -9,7 +9,7 @@ module.exports = {
     },
     // Get a thought
     getSingleThought(req, res) {
-      Thought.findOne({ _id: params.id })
+      Thought.findOne({ _id: req.params.thoughtId })
       .populate({ path: "reactions", select: "-__v" })
       .select("-__v")
       .then((thought) => {
@@ -46,14 +46,14 @@ module.exports = {
   },
     // Delete a thought
     deleteThought({ params }, res) {
-      Thought.findOneAndDelete({ _id: params.id })
+      Thought.findOneAndDelete({ _id: params.thoughtId })
       .then((user) => res.json(user))
       .catch((err) => res.json(err));
   },
 
     // Update a thought
     updateSingleThought({ params, body }, res) {
-      Thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
+      Thought.findOneAndUpdate({ _id: params.thoughtId }, body, { new: true })
         .populate({ path: "reactions", select: "-__v" })
         .select("-__v")
         .then((thought) => {
@@ -67,7 +67,7 @@ module.exports = {
     },
 addReaction({ params, body }, res) {
   Thought.findOneAndUpdate(
-      { _id: params.thoughtID },
+      { _id: params.thoughtId },
       { $push: { reactions: body }},
       { new: true }
   )

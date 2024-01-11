@@ -15,10 +15,11 @@ module.exports = {
 },
   // Get a single user
   getSingleUser(req, res) {
-    User.findOne({ _id: req.params.id })
-    .populate({ path: "thoughts", select: "-__v" })
-    .populate({ path: "friends", select: "-__v" })
-    .select("-__v")
+    User.findOne({ _id: req.params.userId })
+    
+    // .populate({ path: "thoughts", select: "-__v" })
+    // .populate({ path: "friends", select: "-__v" })
+    // .select("-__v")
       .then((user) => {
         if(!user){
           res.status(404).json({ message: 'No user with this id' });
@@ -39,14 +40,14 @@ module.exports = {
   },
   // Delete a student and remove them from the course
   deleteUser({ params }, res) {
-    User.findOneAndDelete({ _id: params.id })
+    User.findOneAndDelete({ _id: params.userId })
       .then((user) => res.json(user))
       .catch((err) => res.json(err));
   },
   //Update a single user
   updateSingleUser(req, res) {
     User.findOneAndUpdate(
-      { _id: req.params.id },
+      { _id: req.params.userId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
@@ -66,7 +67,7 @@ module.exports = {
 //add a friend to a user
 addFriend({ params }, res) {
   User.findOneAndUpdate(
-    { _id: params.id },
+    { _id: params.userId },
     { $push: { friends: params.friendId } },
     { new: true }
   )
