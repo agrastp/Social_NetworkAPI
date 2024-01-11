@@ -16,7 +16,7 @@ module.exports = {
   // Get a single user
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
-    
+
     // .populate({ path: "thoughts", select: "-__v" })
     // .populate({ path: "friends", select: "-__v" })
     // .select("-__v")
@@ -66,7 +66,7 @@ module.exports = {
 
 //add a friend to a user
 addFriend({ params }, res) {
-  User.findOneAndUpdate(
+  User.create(
     { _id: params.userId },
     { $push: { friends: params.friendId } },
     { new: true }
