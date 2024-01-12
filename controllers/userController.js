@@ -67,7 +67,7 @@ module.exports = {
   addFriend({ params }, res) {
     User.findOneAndUpdate(
       { _id: params.userId },
-      { $addToSet: { friends: params.friendId } },
+      { $addToSet: { friends: params.friendsId } },
       { new: true, runValidators: true }
     )
       .populate({ path: "friends", select: "-__v" })
@@ -89,7 +89,7 @@ module.exports = {
   deleteFriend({ params }, res) {
     User.findOneAndUpdate(
       { _id: params.userId },
-      { $pull: { friends: params.friendId } },
+      { $pull: { friends: params.friendsId } },
       { new: true, runValidators: true }
     )
       .populate({ path: "friends", select: "-__v" })
